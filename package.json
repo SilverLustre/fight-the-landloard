@@ -1,0 +1,17 @@
+{
+  "name": "fight-the-landloard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cross-platform, player-hosted or dedicated-server Dou Dizhu.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test",
+    "check": "node --check server/index.js && node --check server/match.js && node --check shared/rules.js && node --check public/app.js && node --check public/table.js"
+  },
+  "dependencies": {
+    "three": "^0.180.0",
+    "ws": "^8.18.3"
+  }
+}
