@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#193f37">
+  <meta name="description" content="A cozy 3D Dou Dizhu courtyard. Play Fight the Landlord with friends or bots on your own server.">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/style.css">
+  <title>Fight the Landlord · The Courtyard</title>
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="scene-shade"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Fight the Landlord home"><span class="brand-mark">♠</span><span>THE COURTYARD<small>FIGHT THE LANDLORD</small></span></a>
+    <div class="top-actions">
+      <span id="connection" class="connection"><i></i>Connecting</span>
+      <button id="reconnect" class="button secondary hidden" type="button">Reconnect</button>
+      <button id="settings-toggle" class="icon-button" aria-label="Open settings" aria-expanded="false">⚙</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="home" aria-labelledby="home-title">
+      <div class="intro">
+        <span class="eyebrow"><span class="live-dot"></span> A LITTLE STRATEGY. A LOT OF CHARACTER.</span>
+        <h1 id="home-title">Good cards.<br>Better <em>company.</em></h1>
+        <p>Three seats. One landlord. Endless possibilities.<br>Pull up a chair in the courtyard.</p>
+        <div class="features"><span>♣ Classic Dou Dizhu</span><span>✦ Play your way</span><span>♡ Made for friends</span></div>
+      </div>
+      <form id="room-form" class="welcome-panel">
+        <div class="panel-heading"><span class="mini-cards">♠ ♥</span><span class="eyebrow">YOUR NEXT ROUND STARTS HERE</span></div>
+        <h2>There’s a seat for you.</h2>
+        <p>Invite your people, or meet our courtyard bots.</p>
+        <label for="player-name">YOUR NAME</label>
+        <input id="player-name" name="name" maxlength="20" placeholder="What should we call you?" autocomplete="nickname" required>
+        <button id="create-room" class="button primary" type="submit">Create a table <span>↗</span></button>
+        <div class="or"><span></span>OR JOIN FRIENDS<span></span></div>
+        <div class="join-row"><input id="room-code" aria-label="Room code" placeholder="ROOM CODE" maxlength="6" autocomplete="off" autocapitalize="characters"><button id="join-room" class="button secondary" type="button">Join table</button></div>
+        <button id="practice" class="text-button" type="button">Just looking? Play a round with bots →</button>
+        <div class="hosting-note"><span id="hosting-label">PLAYER-HOSTED</span><span>Private tables · No account needed</span></div>
+      </form>
+      <div class="home-footer"><span>01 — THE COURTYARD COLLECTION</span><button id="rules-open" class="text-button" type="button">New here? Learn to play ↗</button></div>
+    </section>
+
+    <section id="game" class="game hidden" aria-label="Game table">
+      <div class="room-top"><div><span class="eyebrow">YOUR PRIVATE COURTYARD</span><h2>Table <span id="table-code"></span><button id="copy-invite" class="icon-button" aria-label="Copy invitation">↗</button></h2></div><button id="leave-room" class="button subtle">Leave table</button></div>
+      <div id="opponents" class="opponents"></div>
+      <div class="table-center">
+        <div id="kitty" class="kitty" aria-label="Landlord bonus cards"></div>
+        <span id="phase" class="eyebrow">WAITING FOR FRIENDS</span>
+        <h2 id="table-message">The kettle is on.</h2>
+        <div id="played-cards" class="played-cards" aria-label="Last played cards"></div>
+        <div id="round-details" class="round-details"></div>
+        <div id="lobby-actions" class="lobby-actions"><button id="start-game" class="button primary">Start round</button><button id="fill-bots" class="button secondary">Play with bots</button></div>
+        <div id="result" class="result hidden"></div>
+      </div>
+      <div class="hand-area">
+        <div class="hand-heading"><div class="you-avatar">☺</div><div><strong id="your-name">You</strong><span id="your-role">Make yourself at home</span></div><div id="turn-label" class="turn-label"></div><span id="timer" class="timer"></span></div>
+        <div id="hand" class="hand" role="group" aria-label="Your cards. Tap to select, then play."></div>
+        <div id="bid-actions" class="action-bar hidden"><span>YOUR BID</span><button class="button secondary" data-bid="0">Pass</button><button class="button secondary" data-bid="1">1</button><button class="button secondary" data-bid="2">2</button><button class="button primary" data-bid="3">3 · Landlord</button></div>
+        <div id="play-actions" class="action-bar hidden"><button id="clear-cards" class="button subtle">Clear</button><button id="hint" class="button secondary">✦ Hint</button><button id="pass" class="button secondary">Pass</button><button id="play" class="button primary">Play cards <span>↗</span></button></div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="settings" class="settings hidden" aria-label="Settings">
+    <h3>A little more you.</h3>
+    <label class="setting-row">Reduced motion<input id="reduced-motion" type="checkbox"></label>
+    <label class="setting-row">Low-power visuals<input id="low-power" type="checkbox"></label>
+    <label class="setting-row">Sound effects<input id="sound" type="checkbox"></label>
+    <button id="install" class="button secondary hidden">Install game</button>
+    <button id="settings-rules" class="text-button">How to play ↗</button>
+    <p>To host on your own computer, run <code>npm start</code>. Friends open your server address and enter the room code. Keep the host running.</p>
+  </aside>
+  <dialog id="rules-dialog">
+    <button id="rules-close" class="icon-button close-dialog" aria-label="Close rules">×</button>
+    <span class="eyebrow">A QUICK INTRODUCTION</span><h2>One landlord.<br>Two unlikely allies.</h2>
+    <p>Everyone gets 17 cards. Bid 1, 2, or 3 for the landlord role, or pass. Each player bids once; the highest bidder gets three bonus cards and leads. A bid of 3 ends bidding. If everyone passes, we redeal.</p>
+    <p>The landlord plays alone. The other two players are a team. Empty your hand to win for your side.</p>
+    <h3>Play something stronger.</h3>
+    <p>Match the type and length of the last play with a higher rank, or pass. After two passes, the last player leads anything. Rank order: 3–10, J, Q, K, A, 2, low joker, high joker.</p>
+    <p>Play singles, pairs, triples (alone or with a single/pair), straights (5+), consecutive pairs (3+), consecutive triples (2+, with optional single/pair wings), or four-of-a-kind with two single/pair wings. Runs cannot contain 2s or jokers. Wings must use distinct ranks outside the core.</p>
+    <p>A four-of-a-kind bomb beats ordinary combinations. Both jokers together—the rocket—beat everything. Bombs and rockets double the score multiplier. Spring doubles it again when the losing farmers never play, or the losing landlord plays only once.</p>
+    <p>The stake is the winning bid × multiplier. The landlord gains/loses twice the stake; each farmer loses/gains one stake. Scores are casual room points, not money.</p>
+    <p>Turns last 30 seconds. On timeout, the server bids or plays for you. Disconnected players keep their seat; reload to reconnect. Player-hosted rooms end if the hosting server stops.</p>
+  </dialog>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <div id="fatal" class="fatal hidden" role="alert"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
